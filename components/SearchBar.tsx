@@ -1,45 +1,66 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 interface SearchBarProps {
-  onOpenModal: () => void
+  onOpenModal?: () => void
 }
 
 export default function SearchBar({ onOpenModal }: SearchBarProps) {
-  const [isMac, setIsMac] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
-  useEffect(() => {
-    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0)
-  }, [])
+  const handleClick = () => {
+    if (onOpenModal) {
+      onOpenModal()
+    } else {
+      // If no onOpenModal prop, trigger the global search via keyboard event
+      const event = new KeyboardEvent('keydown', {
+        key: 'k',
+        metaKey: true,
+        bubbles: true
+      })
+      document.dispatchEvent(event)
+    }
+  }
 
   return (
-    <div className="relative">
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <button
-          onClick={onOpenModal}
-          className="w-full pl-12 pr-16 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all text-left"
+    <div className="relative max-w-md mx-auto">
+      <div
+        onClick={handleClick}
+        className={`
+          flex items-center w-full px-4 py-3 
+          bg-gray-50 dark:bg-gray-900/50 
+          border border-gray-200 dark:border-gray-800
+          rounded-lg cursor-text transition-all duration-200
+          ${isFocused ? 'border-blue-500 dark:border-blue-400 bg-white dark:bg-gray-900' : 'hover:bg-white dark:hover:bg-gray-900'}
+        `}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+      >
+        <svg 
+          className="w-5 h-5 text-gray-400 dark:text-gray-500 mr-3" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
         >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+          />
+        </svg>
+        
+        <span className="flex-1 text-gray-500 dark:text-gray-400 text-sm">
           Search releases, versions, changes...
-        </button>
-        <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-          <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
-            {isMac ? (
-              <>
-                <span>⌘</span>
-                <span>K</span>
-              </>
-            ) : (
-              <>
-                <span>Ctrl</span>
-                <span>K</span>
-              </>
-            )}
+        </span>
+        
+        <div className="flex items-center gap-1">
+          <kbd className="px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
+            ⌘
+          </kbd>
+          <kbd className="px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
+            K
           </kbd>
         </div>
       </div>
