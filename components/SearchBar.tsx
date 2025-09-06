@@ -1,27 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import { useGlobalSearch } from './GlobalSearchProvider'
 
 interface SearchBarProps {
-  onOpenModal?: () => void
   compact?: boolean
 }
 
-export default function SearchBar({ onOpenModal, compact = false }: SearchBarProps) {
+export default function SearchBar({ compact = false }: SearchBarProps) {
   const [isFocused, setIsFocused] = useState(false)
+  const { openSearch } = useGlobalSearch()
 
   const handleClick = () => {
-    if (onOpenModal) {
-      onOpenModal()
-    } else {
-      // If no onOpenModal prop, trigger the global search via keyboard event
-      const event = new KeyboardEvent('keydown', {
-        key: 'k',
-        metaKey: true,
-        bubbles: true
-      })
-      document.dispatchEvent(event)
-    }
+    openSearch()
   }
 
   return (

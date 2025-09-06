@@ -1,13 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
 import ThemeToggle from './ThemeToggle'
 import SearchBar from './SearchBar'
 
 export default function Header() {
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
-
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors">
       <div className="max-w-4xl mx-auto px-6 py-4">
@@ -30,7 +27,7 @@ export default function Header() {
 
           {/* Search Bar - Centered */}
           <div className="flex-1 max-w-md mx-4">
-            <SearchBar onOpenModal={() => setIsSearchModalOpen(true)} />
+            <SearchBar />
           </div>
 
           {/* Right side - Theme toggle and links */}
