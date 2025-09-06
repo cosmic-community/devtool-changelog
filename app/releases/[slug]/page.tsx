@@ -16,7 +16,7 @@ interface ReleasePageProps {
 export async function generateStaticParams() {
   try {
     const releases = await getReleases()
-    return releases.map((release) => ({
+    return releases.map((release: Release) => ({
       slug: release.slug,
     }))
   } catch (error) {

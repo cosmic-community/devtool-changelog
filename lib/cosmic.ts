@@ -1,4 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
+import { Release, Category, Component } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -12,14 +13,14 @@ function hasStatus(error: unknown): error is { status: number } {
 }
 
 // Get all releases with related objects
-export async function getReleases() {
+export async function getReleases(): Promise<Release[]> {
   try {
     const response = await cosmic.objects
       .find({ type: 'releases' })
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1);
 
-    const releases = response.objects.sort((a, b) => {
+    const releases = (response.objects as Release[]).sort((a: Release, b: Release) => {
       const dateA = new Date(a.metadata?.release_date || '').getTime();
       const dateB = new Date(b.metadata?.release_date || '').getTime();
       return dateB - dateA; // Newest first
@@ -35,14 +36,14 @@ export async function getReleases() {
 }
 
 // Get a single release by slug
-export async function getRelease(slug: string) {
+export async function getRelease(slug: string): Promise<Release | null> {
   try {
     const response = await cosmic.objects
       .findOne({ type: 'releases', slug })
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1);
 
-    return response.object;
+    return response.object as Release;
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return null;
@@ -52,13 +53,13 @@ export async function getRelease(slug: string) {
 }
 
 // Get all categories
-export async function getCategories() {
+export async function getCategories(): Promise<Category[]> {
   try {
     const response = await cosmic.objects
       .find({ type: 'categories' })
       .props(['id', 'title', 'slug', 'metadata']);
 
-    return response.objects;
+    return response.objects as Category[];
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return [];
@@ -68,13 +69,13 @@ export async function getCategories() {
 }
 
 // Get all components
-export async function getComponents() {
+export async function getComponents(): Promise<Component[]> {
   try {
     const response = await cosmic.objects
       .find({ type: 'components' })
       .props(['id', 'title', 'slug', 'metadata']);
 
-    return response.objects;
+    return response.objects as Component[];
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return [];
@@ -84,7 +85,7 @@ export async function getComponents() {
 }
 
 // Get featured releases
-export async function getFeaturedReleases() {
+export async function getFeaturedReleases(): Promise<Release[]> {
   try {
     const response = await cosmic.objects
       .find({ 
@@ -94,7 +95,7 @@ export async function getFeaturedReleases() {
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1);
 
-    const releases = response.objects.sort((a, b) => {
+    const releases = (response.objects as Release[]).sort((a: Release, b: Release) => {
       const dateA = new Date(a.metadata?.release_date || '').getTime();
       const dateB = new Date(b.metadata?.release_date || '').getTime();
       return dateB - dateA; // Newest first
@@ -110,7 +111,7 @@ export async function getFeaturedReleases() {
 }
 
 // Get releases by category
-export async function getReleasesByCategory(categoryId: string) {
+export async function getReleasesByCategory(categoryId: string): Promise<Release[]> {
   try {
     const response = await cosmic.objects
       .find({ 
@@ -120,7 +121,7 @@ export async function getReleasesByCategory(categoryId: string) {
       .props(['id', 'title', 'slug', 'metadata', 'created_at'])
       .depth(1);
 
-    const releases = response.objects.sort((a, b) => {
+    const releases = (response.objects as Release[]).sort((a: Release, b: Release) => {
       const dateA = new Date(a.metadata?.release_date || '').getTime();
       const dateB = new Date(b.metadata?.release_date || '').getTime();
       return dateB - dateA; // Newest first
