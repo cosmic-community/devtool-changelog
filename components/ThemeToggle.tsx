@@ -32,14 +32,13 @@ export default function ThemeToggle() {
   const toggleTheme = () => {
     const themes: ThemeType[] = ['light', 'dark', 'system']
     const currentIndex = themes.indexOf(theme)
-    const nextTheme = themes[(currentIndex + 1) % themes.length]
+    const nextTheme = themes[(currentIndex + 1) % themes.length] as ThemeType
     
-    // Ensure nextTheme is defined before using it
-    if (nextTheme) {
-      setTheme(nextTheme)
-      localStorage.setItem('theme', nextTheme)
-      applyTheme(nextTheme)
-    }
+    // Since we're using modulo on a fixed array, nextTheme is guaranteed to be defined
+    // and will be one of the ThemeType values
+    setTheme(nextTheme)
+    localStorage.setItem('theme', nextTheme)
+    applyTheme(nextTheme)
   }
 
   if (!mounted) {
