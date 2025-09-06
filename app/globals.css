@@ -3,134 +3,120 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --foreground-rgb: 255, 255, 255;
+      --background-start-rgb: 0, 0, 0;
+      --background-end-rgb: 0, 0, 0;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
   html {
     scroll-behavior: smooth;
   }
-  
-  body {
-    @apply bg-white text-secondary-900 font-sans antialiased;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
-  }
-  
-  h1 {
-    @apply text-3xl md:text-4xl;
-  }
-  
-  h2 {
-    @apply text-2xl md:text-3xl;
-  }
-  
-  h3 {
-    @apply text-xl md:text-2xl;
-  }
-  
-  h4 {
-    @apply text-lg md:text-xl;
-  }
-}
 
-@layer components {
-  .container {
-    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  body {
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
   }
-  
-  .btn {
-    @apply inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+
+  /* Prose styles for release content */
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    @apply font-semibold text-gray-900 dark:text-white;
   }
-  
-  .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+
+  .prose h2 {
+    @apply text-xl mt-8 mb-4;
   }
-  
-  .btn-secondary {
-    @apply btn bg-secondary-100 text-secondary-900 hover:bg-secondary-200 focus:ring-secondary-500;
+
+  .prose h3 {
+    @apply text-lg mt-6 mb-3;
   }
-  
-  .card {
-    @apply bg-white rounded-lg shadow-sm border border-secondary-200 overflow-hidden;
+
+  .prose p {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed mb-4;
   }
-  
-  .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
+
+  .prose ul, .prose ol {
+    @apply text-gray-700 dark:text-gray-300 mb-4 pl-6;
   }
-  
-  .release-content {
-    @apply prose prose-sm max-w-none;
+
+  .prose ul {
+    @apply list-disc;
   }
-  
-  .release-content h1,
-  .release-content h2,
-  .release-content h3,
-  .release-content h4,
-  .release-content h5,
-  .release-content h6 {
-    @apply text-secondary-900 font-semibold mt-6 mb-4;
+
+  .prose ol {
+    @apply list-decimal;
   }
-  
-  .release-content h1 {
-    @apply text-2xl;
-  }
-  
-  .release-content h2 {
-    @apply text-xl;
-  }
-  
-  .release-content h3 {
-    @apply text-lg;
-  }
-  
-  .release-content ul,
-  .release-content ol {
-    @apply my-4 ml-6;
-  }
-  
-  .release-content li {
+
+  .prose li {
     @apply mb-2;
   }
-  
-  .release-content p {
-    @apply mb-4 leading-relaxed;
+
+  .prose code {
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
   }
-  
-  .release-content code {
-    @apply bg-secondary-100 text-secondary-800 px-1.5 py-0.5 rounded text-sm font-mono;
+
+  .prose pre {
+    @apply bg-gray-900 dark:bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4;
   }
-  
-  .release-content pre {
-    @apply bg-secondary-900 text-secondary-100 p-4 rounded-lg overflow-x-auto my-4;
+
+  .prose pre code {
+    @apply bg-transparent p-0 text-inherit;
   }
-  
-  .release-content pre code {
-    @apply bg-transparent text-secondary-100 p-0;
+
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 dark:border-gray-600 pl-4 text-gray-600 dark:text-gray-400 italic mb-4;
   }
-  
-  .release-content blockquote {
-    @apply border-l-4 border-primary-500 pl-4 italic text-secondary-600 my-4;
+
+  .prose a {
+    @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline;
   }
-  
-  .release-content strong {
-    @apply font-semibold text-secondary-900;
+
+  .prose strong {
+    @apply font-semibold text-gray-900 dark:text-white;
   }
-  
-  .release-content em {
+
+  .prose em {
     @apply italic;
+  }
+
+  .prose hr {
+    @apply border-gray-200 dark:border-gray-700 my-8;
+  }
+
+  .prose table {
+    @apply w-full border-collapse mb-4;
+  }
+
+  .prose th, .prose td {
+    @apply border border-gray-200 dark:border-gray-700 px-4 py-2 text-left;
+  }
+
+  .prose th {
+    @apply bg-gray-50 dark:bg-gray-800 font-semibold;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
   }
 }

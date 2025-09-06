@@ -1,31 +1,23 @@
-import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
-import CosmicBadge from '@/components/CosmicBadge'
 
-export const metadata: Metadata = {
-  title: 'DevTool Changelog - Release Notes & Updates',
-  description: 'Stay up-to-date with the latest releases, features, and improvements to DevTool. View detailed changelogs, breaking changes, and component updates.',
-  keywords: ['changelog', 'release notes', 'developer tools', 'software updates', 'version history'],
-  authors: [{ name: 'DevTool Team' }],
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'DevTool Changelog',
+  description: 'Stay up-to-date with the latest releases, features, and improvements to our developer tool platform.',
+  metadataBase: new URL('https://changelog.devtool.com'),
   openGraph: {
-    title: 'DevTool Changelog - Release Notes & Updates',
-    description: 'Stay up-to-date with the latest releases, features, and improvements to DevTool.',
+    title: 'DevTool Changelog',
+    description: 'Stay up-to-date with the latest releases, features, and improvements to our developer tool platform.',
     type: 'website',
-    url: 'https://changelog.devtool.com',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop&auto=format',
-        width: 1200,
-        height: 630,
-        alt: 'DevTool Changelog',
-      },
-    ],
+    locale: 'en_US',
+    siteName: 'DevTool Changelog',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DevTool Changelog - Release Notes & Updates',
-    description: 'Stay up-to-date with the latest releases, features, and improvements to DevTool.',
-    images: ['https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop&auto=format'],
+    title: 'DevTool Changelog',
+    description: 'Stay up-to-date with the latest releases, features, and improvements to our developer tool platform.',
   },
 }
 
@@ -34,17 +26,24 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const bucketSlug = process.env.COSMIC_BUCKET_SLUG as string
-
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Console capture script for dashboard debugging */}
-        <script src="/dashboard-console-capture.js" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const savedTheme = localStorage.getItem('theme') || 'system';
+                if (savedTheme === 'dark' || (savedTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
       </head>
-      <body>
+      <body className={inter.className} suppressHydrationWarning>
         {children}
-        <CosmicBadge bucketSlug={bucketSlug} />
       </body>
     </html>
   )
