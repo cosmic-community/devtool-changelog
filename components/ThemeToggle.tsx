@@ -34,9 +34,12 @@ export default function ThemeToggle() {
     const currentIndex = themes.indexOf(theme)
     const nextTheme = themes[(currentIndex + 1) % themes.length]
     
-    setTheme(nextTheme)
-    localStorage.setItem('theme', nextTheme)
-    applyTheme(nextTheme)
+    // Ensure nextTheme is defined before using it
+    if (nextTheme) {
+      setTheme(nextTheme)
+      localStorage.setItem('theme', nextTheme)
+      applyTheme(nextTheme)
+    }
   }
 
   if (!mounted) {
