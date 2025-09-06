@@ -6,6 +6,7 @@ import { formatDate, formatVersion } from '@/lib/utils'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import { Metadata } from 'next'
 
 interface ReleasePageProps {
   params: Promise<{ slug: string }>
@@ -23,7 +24,7 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }: ReleasePageProps) {
+export async function generateMetadata({ params }: ReleasePageProps): Promise<Metadata> {
   const { slug } = await params
   
   try {
@@ -31,19 +32,80 @@ export async function generateMetadata({ params }: ReleasePageProps) {
     
     if (!release) {
       return {
-        title: 'Release Not Found',
+        title: 'Release Not Found - DevTool Changelog',
         description: 'The requested release could not be found.',
+        robots: {
+          index: false,
+          follow: false,
+        },
       }
     }
 
+    const releaseVersion = release.metadata?.version || 'Unknown Version'
+    const releaseDate = release.metadata?.release_date || release.created_at
+    const summary = release.metadata?.summary || `Release notes and updates for ${releaseVersion}`
+    const releaseType = release.metadata?.release_type?.value || 'Release'
+    
+    // Generate dynamic OG image URL with release info
+    const ogImageUrl = `https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop&auto=format,compress&overlay-text=${encodeURIComponent(release.title)}&overlay-position=center`
+
     return {
       title: `${release.title} - DevTool Changelog`,
-      description: release.metadata?.summary || `Release notes for ${release.metadata?.version}`,
+      description: summary,
       openGraph: {
-        title: release.title,
-        description: release.metadata?.summary || `Release notes for ${release.metadata?.version}`,
+        title: `${release.title} - DevTool Changelog`,
+        description: summary,
+        url: `https://changelog.devtool.com/releases/${slug}`,
         type: 'article',
-        publishedTime: release.metadata?.release_date,
+        publishedTime: releaseDate,
+        modifiedTime: release.modified_at,
+        section: 'Release Notes',
+        tags: [
+          'DevTool',
+          'Changelog',
+          'Release Notes',
+          releaseType,
+          releaseVersion,
+          ...(release.metadata?.categories?.map(cat => cat.metadata?.name || cat.title) || [])
+        ],
+        images: [
+          {
+            url: ogImageUrl,
+            width: 1200,
+            height: 630,
+            alt: `${release.title} - ${summary}`,
+            type: 'image/jpeg',
+          }
+        ],
+        siteName: 'DevTool Changelog',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${release.title} - DevTool Changelog`,
+        description: summary,
+        images: [ogImageUrl],
+        creator: '@devtool',
+        site: '@devtool',
+      },
+      alternates: {
+        canonical: `https://changelog.devtool.com/releases/${slug}`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+      other: {
+        'article:author': 'DevTool Team',
+        'article:section': 'Release Notes',
+        'article:published_time': releaseDate,
+        'article:modified_time': release.modified_at,
       },
     }
   } catch (error) {
@@ -51,6 +113,10 @@ export async function generateMetadata({ params }: ReleasePageProps) {
     return {
       title: 'Release - DevTool Changelog',
       description: 'DevTool release information',
+      robots: {
+        index: false,
+        follow: true,
+      },
     }
   }
 }
