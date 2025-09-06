@@ -1,9 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('')
+interface SearchBarProps {
+  onOpenModal: () => void
+}
+
+export default function SearchBar({ onOpenModal }: SearchBarProps) {
+  const [isMac, setIsMac] = useState(false)
+
+  useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0)
+  }, [])
 
   return (
     <div className="relative">
@@ -13,16 +21,25 @@ export default function SearchBar() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors"
-        />
+        <button
+          onClick={onOpenModal}
+          className="w-full pl-12 pr-16 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all text-left"
+        >
+          Search releases, versions, changes...
+        </button>
         <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-          <kbd className="hidden sm:inline-block px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
-            ⌘K
+          <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
+            {isMac ? (
+              <>
+                <span>⌘</span>
+                <span>K</span>
+              </>
+            ) : (
+              <>
+                <span>Ctrl</span>
+                <span>K</span>
+              </>
+            )}
           </kbd>
         </div>
       </div>
