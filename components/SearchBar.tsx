@@ -30,7 +30,7 @@ export default function SearchBar({ compact = false }: SearchBarProps) {
         onBlur={() => setIsFocused(false)}
       >
         <svg 
-          className={`${compact ? 'w-4 h-4' : 'w-5 h-5'} text-gray-400 dark:text-gray-500 mr-2`}
+          className={`${compact ? 'w-4 h-4' : 'w-5 h-5'} text-gray-400 dark:text-gray-500 mr-2 flex-shrink-0`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -43,11 +43,13 @@ export default function SearchBar({ compact = false }: SearchBarProps) {
           />
         </svg>
         
-        <span className={`flex-1 text-gray-500 dark:text-gray-400 ${compact ? 'text-sm' : 'text-sm'}`}>
-          {compact ? 'Search...' : 'Search releases, versions, changes...'}
+        <span className={`flex-1 text-gray-500 dark:text-gray-400 ${compact ? 'text-sm' : 'text-sm'} min-w-0`}>
+          <span className="hidden sm:inline">{compact ? 'Search...' : 'Search releases, versions, changes...'}</span>
+          <span className="sm:hidden">Search...</span>
         </span>
         
-        <div className="flex items-center gap-1">
+        {/* Hide keyboard shortcuts on mobile */}
+        <div className="hidden sm:flex items-center gap-1 flex-shrink-0">
           <kbd className={`px-1.5 py-0.5 ${compact ? 'text-xs' : 'text-xs'} font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded`}>
             ⌘
           </kbd>
