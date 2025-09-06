@@ -39,7 +39,7 @@ export default function Header() {
               Changelog
             </Link>
             <a 
-              href="https://docs.devtool.com"
+              href="https://www.cosmicjs.com/docs"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors text-sm"
@@ -47,7 +47,7 @@ export default function Header() {
               Docs
             </a>
             <a 
-              href="https://github.com/devtool/devtool"
+              href="https://github.com/cosmic-community/devtool-changelog"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors text-sm flex items-center gap-2"

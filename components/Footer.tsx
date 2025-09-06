@@ -39,7 +39,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a 
-                    href="https://docs.devtool.com" 
+                    href="https://www.cosmicjs.com/docs" 
                     className="text-secondary-400 hover:text-white transition-colors duration-200 text-base"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -76,7 +76,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <a 
-                    href="https://github.com/devtool/devtool" 
+                    href="https://github.com/cosmic-community/devtool-changelog" 
                     className="text-secondary-400 hover:text-white transition-colors duration-200 text-base"
                     target="_blank"
                     rel="noopener noreferrer"
