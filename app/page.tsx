@@ -3,6 +3,33 @@ import { Release, Category } from '@/types'
 import Header from '@/components/Header'
 import ReleaseCard from '@/components/ReleaseCard'
 import Footer from '@/components/Footer'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'DevTool Changelog - Latest Releases & Updates',
+  description: 'Stay up-to-date with the latest releases, features, and improvements to our developer tool platform. View release notes, breaking changes, and feature updates.',
+  openGraph: {
+    title: 'DevTool Changelog - Latest Releases & Updates',
+    description: 'Stay up-to-date with the latest releases, features, and improvements to our developer tool platform. View release notes, breaking changes, and feature updates.',
+    url: 'https://changelog.devtool.com',
+    type: 'website',
+    images: [
+      {
+        url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&auto=format,compress',
+        width: 1200,
+        height: 630,
+        alt: 'DevTool Changelog - Latest releases and updates for developers',
+        type: 'image/jpeg',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DevTool Changelog - Latest Releases & Updates',
+    description: 'Stay up-to-date with the latest releases, features, and improvements to our developer tool platform.',
+    images: ['https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&auto=format,compress'],
+  },
+}
 
 export default async function HomePage() {
   try {
