@@ -1,5 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { getReleases } from '@/lib/cosmic'
+import GlobalSearchProvider from '@/components/GlobalSearchProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,11 +23,19 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Fetch releases for global search functionality
+  let releases: any[] = []
+  try {
+    releases = await getReleases()
+  } catch (error) {
+    console.error('Error loading releases for search:', error)
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -43,7 +53,9 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        {children}
+        <GlobalSearchProvider releases={releases}>
+          {children}
+        </GlobalSearchProvider>
       </body>
     </html>
   )

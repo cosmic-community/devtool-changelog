@@ -4,9 +4,10 @@ import { useState } from 'react'
 
 interface SearchBarProps {
   onOpenModal?: () => void
+  compact?: boolean
 }
 
-export default function SearchBar({ onOpenModal }: SearchBarProps) {
+export default function SearchBar({ onOpenModal, compact = false }: SearchBarProps) {
   const [isFocused, setIsFocused] = useState(false)
 
   const handleClick = () => {
@@ -24,11 +25,11 @@ export default function SearchBar({ onOpenModal }: SearchBarProps) {
   }
 
   return (
-    <div className="relative max-w-md mx-auto">
+    <div className={`relative ${compact ? 'max-w-sm' : 'max-w-md'} w-full`}>
       <div
         onClick={handleClick}
         className={`
-          flex items-center w-full px-4 py-3 
+          flex items-center w-full px-3 ${compact ? 'py-2' : 'py-3'}
           bg-gray-50 dark:bg-gray-900/50 
           border border-gray-200 dark:border-gray-800
           rounded-lg cursor-text transition-all duration-200
@@ -38,7 +39,7 @@ export default function SearchBar({ onOpenModal }: SearchBarProps) {
         onBlur={() => setIsFocused(false)}
       >
         <svg 
-          className="w-5 h-5 text-gray-400 dark:text-gray-500 mr-3" 
+          className={`${compact ? 'w-4 h-4' : 'w-5 h-5'} text-gray-400 dark:text-gray-500 mr-2`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -51,15 +52,15 @@ export default function SearchBar({ onOpenModal }: SearchBarProps) {
           />
         </svg>
         
-        <span className="flex-1 text-gray-500 dark:text-gray-400 text-sm">
-          Search releases, versions, changes...
+        <span className={`flex-1 text-gray-500 dark:text-gray-400 ${compact ? 'text-sm' : 'text-sm'}`}>
+          {compact ? 'Search...' : 'Search releases, versions, changes...'}
         </span>
         
         <div className="flex items-center gap-1">
-          <kbd className="px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
+          <kbd className={`px-1.5 py-0.5 ${compact ? 'text-xs' : 'text-xs'} font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded`}>
             ⌘
           </kbd>
-          <kbd className="px-2 py-1 text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
+          <kbd className={`px-1.5 py-0.5 ${compact ? 'text-xs' : 'text-xs'} font-mono text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded`}>
             K
           </kbd>
         </div>

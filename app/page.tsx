@@ -2,9 +2,7 @@ import { getReleases, getCategories } from '@/lib/cosmic'
 import { Release, Category } from '@/types'
 import Header from '@/components/Header'
 import ReleaseCard from '@/components/ReleaseCard'
-import SearchBar from '@/components/SearchBar'
 import Footer from '@/components/Footer'
-import ClientHomePage from '@/components/ClientHomePage'
 
 export default async function HomePage() {
   try {
@@ -19,9 +17,14 @@ export default async function HomePage() {
         <Header />
         
         <main className="max-w-4xl mx-auto px-6 py-8">
-          {/* Search Bar */}
-          <div className="mb-12">
-            <SearchBar />
+          {/* Welcome Section */}
+          <div className="mb-12 text-center">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              DevTool Changelog
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 text-lg">
+              Stay up-to-date with the latest releases, features, and improvements
+            </p>
           </div>
 
           {/* Releases Timeline */}
@@ -53,9 +56,6 @@ export default async function HomePage() {
         </main>
 
         <Footer />
-
-        {/* Client-side functionality (search modal, keyboard shortcuts) */}
-        <ClientHomePage releases={releases} />
       </div>
     )
   } catch (error) {
