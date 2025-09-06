@@ -2,18 +2,23 @@
 
 import { useState, useEffect } from 'react'
 
+type ThemeType = 'light' | 'dark' | 'system'
+
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system')
+  const [theme, setTheme] = useState<ThemeType>('system')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'system' || 'system'
-    setTheme(savedTheme)
-    applyTheme(savedTheme)
+    const savedTheme = localStorage.getItem('theme')
+    const validTheme: ThemeType = (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'system') 
+      ? savedTheme 
+      : 'system'
+    setTheme(validTheme)
+    applyTheme(validTheme)
   }, [])
 
-  const applyTheme = (newTheme: 'light' | 'dark' | 'system') => {
+  const applyTheme = (newTheme: ThemeType) => {
     const root = window.document.documentElement
     
     if (newTheme === 'system') {
@@ -25,7 +30,7 @@ export default function ThemeToggle() {
   }
 
   const toggleTheme = () => {
-    const themes: ('light' | 'dark' | 'system')[] = ['light', 'dark', 'system']
+    const themes: ThemeType[] = ['light', 'dark', 'system']
     const currentIndex = themes.indexOf(theme)
     const nextTheme = themes[(currentIndex + 1) % themes.length]
     
