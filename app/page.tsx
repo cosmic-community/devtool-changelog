@@ -34,10 +34,10 @@ export default async function HomePage() {
                 <div key={release.id} className="relative">
                   {/* Timeline line */}
                   {index !== releases.length - 1 && (
-                    <div className="absolute left-0 top-20 w-px h-full bg-gray-200 dark:bg-gray-800"></div>
+                    <div className="absolute left-0 top-6 w-px h-full bg-gray-200 dark:bg-gray-800"></div>
                   )}
-                  {/* Timeline dot */}
-                  <div className="absolute left-0 top-8 w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full -translate-x-0.5"></div>
+                  {/* Timeline dot - aligned with date */}
+                  <div className="absolute left-0 top-2 w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full -translate-x-0.5"></div>
                   
                   {/* Release content */}
                   <div className="ml-8">
